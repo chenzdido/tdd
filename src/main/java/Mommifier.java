@@ -5,28 +5,29 @@ public class Mommifier {
         StringBuilder s=new StringBuilder(str);
         int length=s.length();
         int vowel_numbers=0;
-        int[] n=new int[length];
-        int j=0;
+        int[] continuous=new int[length];
+        int continuous_num=0;
         for(int i=0 ; i<length ; i++){
-            char ch = s.charAt(i);
-            if( ch == 'a'|| ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'){
+            if(isvowels(s.charAt(i))){
                 vowel_numbers ++;
-                if((i<length-1)&&(s.charAt(i+1) == 'a'|| s.charAt(i+1) == 'e' || s.charAt(i+1) == 'i' || s.charAt(i+1) == 'o' || s.charAt(i+1) == 'u')){
-                    n[j]=i+1;
-                    j++;
+                if((i<length-1)&&(isvowels(s.charAt(i+1)))){
+                    continuous[continuous_num]=i+1;
+                    continuous_num++;
                 }
             }
         }
-        double percent=(double)vowel_numbers/(double)length;
-        if (percent< 0.3||j==0) {
-            return s.toString();
-        }else{
-            for(int k=0 ;k<j;k++){
-                s.insert(n[k]+k*5,"mommy");
-                }
-            return s.toString();
+        double vowel_percent=(double)vowel_numbers/(double)length;
+        if (!(vowel_percent < 0.3) && continuous_num != 0) {
+            for (int k = 0; k < continuous_num; k++) {
+                s.insert(continuous[k] + k * 5, "mommy");
             }
+        }
+        return s.toString();
 
+    }
+
+    private boolean isvowels(char ch) {
+        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u';
     }
 
 }
